@@ -2,62 +2,51 @@ import { Asesor } from './Asesor.js';
 import { Escudero } from './Escudero.js';
 import { Luchador } from './Luchador.js';
 import { Personaje } from './Personaje.js';
-import { GoT } from './personajes.js';
+import { personajes } from './personajes.js';
 import { Rey } from './Rey.js';
 
-export function characterList(personaje) {
+export function characterList(personaje = new Personaje()) {
     let list = '';
+    let emoji = '';
 
     if (personaje instanceof Rey) {
-        list = `<li>Años de reinado: ${personaje.yearsOfReign} </li>`;
+        list += `<li>Años de reinado: ${personaje.yearsOfReign} </li>`;
+        emoji = '👑';
     }
     if (personaje instanceof Luchador) {
-        `<li>Arma: ${personaje.weapon}</li>
+        list += `<li>Arma: ${personaje.weapon}</li>
         <li>Destreza: ${personaje.skills}</li>`;
+        emoji = '🗡';
     }
     if (personaje instanceof Escudero) {
-        `<li>Sirve a: ${personaje.client} </li>
+        list += `<li>Sirve a: ${personaje.client} </li>
           <li>Peloteo: ${personaje.pelotismo}</li>`;
+        emoji = '🛡';
     }
     if (personaje instanceof Asesor) {
-        `<li>Asesora a: ${personaje.asesora}</li>`;
+        list += `<li>Asesora a: ${personaje.asesora}</li>`;
+        emoji = '🎓';
     }
 
     let status = '';
     if (personaje.alive) {
-        status = `<i class="fas fa-thumbs-down"></i>`;
+        status += `<i class="fas fa-thumbs-up"></i>`;
     } else {
-        status = `<i class="fas fa-thumbs-up"></i>`;
+        status += `<i class="fas fa-thumbs-down"></i>`;
     }
 
-    let img = '';
-    switch (personaje.name) {
-        case 'Bronn':
-            img = `src = 'img/bronn.jpg'`;
-            break;
-        case 'Daenerys':
-            img = `src = 'img/daenerys.jpg'`;
-            break;
-        case 'Jaime':
-            img = `src = 'img/jaime.jpg'`;
-            break;
-        case 'Joffrey':
-            img = `src = 'img/joffrey.jpg'`;
-            break;
-        case 'Tyrion':
-            img = `src = 'img/tyrion.jpg'`;
-            break;
-    }
-
-    return ` <li class="character col">
+    return `
+     <li class="character col">
         <div class="card character__card">
             <img
-                ${img}
+                src="./img/${personaje.name.toLowerCase()}.jpg"
                 alt="${personaje.name} ${personaje.family} del personaje"
                 class="character__picture card-img-top"
             />
             <div class="card-body">
-                <h2 class="character__name card-title h4">${personaje.name} ${personaje.family} </h2>
+                <h2 class="character__name card-title h4">${personaje.name} ${
+        personaje.family
+    } </h2>
                 <div class="character__info">
                     <ul class="list-unstyled">
                         <li>Edad: ${personaje.age} años</li>
@@ -77,8 +66,19 @@ export function characterList(personaje) {
                     </div>
                 </div>
             </div>
-            <i class="emoji"></i>
+            <i class="emoji">${emoji}</i>
         </div>
     </li>
     `;
+}
+
+export function comunicationTemplate(personaje = new Personaje()) {
+    return `
+    <p class="comunications__text display-1">${personaje.comunication}</p>
+      <img
+        class="comunications__picture"
+        src="img/${personaje.name.toLowerCase()}.jpg"
+        alt="${personaje.name}, ${personaje.family}"
+      />
+      `;
 }
